@@ -68,18 +68,15 @@ def determine_options(options_input):
 
 
 # checks whether there is a record for the user with the same name
-# in rating.txt file
+# in the ratings file
 # if yes, returns the rating from the user's previous game session
 def get_user_rating(user_name):
-    ratings_file = open(FILE_NAME, 'r')
-    user_rating = 0
-
-    for line in ratings_file:
-        if line.split()[0] == user_name:
-            user_rating = int(line.split()[1])
-
-    ratings_file.close()
-    return user_rating
+    with open(FILE_NAME, 'r') as ratings_file:
+        for line in ratings_file:
+            if line.split()[0] == user_name:
+                return int(line.split()[1])
+        else:
+            return 0
 
 
 # determines the outcome of the game and returns the current user rating
