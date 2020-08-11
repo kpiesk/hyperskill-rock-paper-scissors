@@ -23,7 +23,8 @@ def game(options_weakness, user_rating):
         user_option = input()
         if user_option in list(options_weakness.keys()):
             pc_option = choice(list(options_weakness.keys()))
-            user_rating = game_result(options_weakness, user_option, pc_option, user_rating)
+            user_rating = game_result(
+                options_weakness, user_option, pc_option, user_rating)
         elif user_option == RATING_COMMAND:
             print(f'Your rating: {user_rating}')
         elif user_option == EXIT_COMMAND:
@@ -57,10 +58,17 @@ def determine_options(options_input):
     # if the user input is empty, default options are used
     if options_input.strip() is '':
         return DEFAULT_OPTIONS.split(',')
-    return options_input.split(',')
+    while True:
+        if len(options_input.split(',')) > 2 and \
+                len(options_input.split(',')) % 2 != 0:
+            return options_input.split(',')
+        options_input = input('Invalid options '
+                              '(the number of options needs to be odd, '
+                              'and at least 3)\n')
 
 
-# checks whether there is a record for the user with the same name in rating.txt
+# checks whether there is a record for the user with the same name
+# in rating.txt file
 # if yes, returns the rating from the user's previous game session
 def get_user_rating(user_name):
     ratings_file = open(FILE_NAME, 'r')
